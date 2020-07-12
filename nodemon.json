@@ -1,0 +1,12 @@
+{
+  "verbose": true,
+  "watch": [
+    "src/**/*.ts"
+  ],
+  "ignore": [
+    "src/**/*.spec.ts"
+  ],
+  "delay": "1000",
+  "exec": "APP_PORT=3000 node --inspect -r ts-node/register ./src/app.ts",
+  "ext": "ts ejs yml json"
+}

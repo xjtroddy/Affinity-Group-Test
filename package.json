@@ -1,0 +1,50 @@
+{
+  "name": "affinity-group-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node ./lib",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xjtroddy/Affinity-Group-Test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xjtroddy/Affinity-Group-Test/issues"
+  },
+  "homepage": "https://github.com/xjtroddy/Affinity-Group-Test#readme",
+  "dependencies": {
+    "config": "^3.3.1",
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-ratelimit": "^4.2.1",
+    "koa-router": "^9.1.0",
+    "lodash": "^4.17.19",
+    "moment": "^2.27.0",
+    "mongoose": "^5.9.22",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
+    "validator": "^13.1.1",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/koa-ratelimit": "^4.2.1",
+    "@types/lodash": "^4.14.157",
+    "@types/moment": "^2.13.0",
+    "@types/mongoose": "^5.7.31",
+    "@types/node": "^14.0.20",
+    "@types/request-promise": "^4.1.46",
+    "@types/winston": "^2.4.4",
+    "nodemon": "1.14.7",
+    "ts-node": "7.0.1",
+    "tslib": "1.9.3",
+    "tslint": "^6.1.2",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "3.0.1"
+  }
+}
