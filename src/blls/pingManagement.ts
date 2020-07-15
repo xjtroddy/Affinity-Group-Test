@@ -1,6 +1,7 @@
 import { AppId, Method } from '../schema'
 import { ping } from './ping'
 import * as mongo from '../mongo'
+import { logger } from '../utils'
 
 class PingManagement {
   static instance: PingManagement
@@ -13,11 +14,15 @@ class PingManagement {
     this.timerMap = new Map()
   }
 
-  public start (appId: AppId, url: string, method: keyof typeof Method, frequency: number, body: any, headers: any) {
+  public start (name: string, appId: AppId, url: string, method: keyof typeof Method, frequency: number, body: any, headers: any) {
     const internal = setInterval(() => {
       ping(appId, url, method, body, headers)
     }, frequency)
     this.timerMap.set(appId.toString(), internal)
+    logger.info({
+      class: 'start timer',
+      message: `start timer of ${name}, url is ${method} ${url}, frequency is ${frequency}`
+    })
   }
 
   public stop (appId: AppId) {
@@ -34,7 +39,7 @@ class PingManagement {
     }
     const app = await mongo.app.getApp(appId)
     if (app.enabled) {
-      this.start(appId, app.url, app.method, app.frequency, app.body, app.headers)
+      this.start(app.name, appId, app.url, app.method, app.frequency, app.body, app.headers)
     }
   }
 }

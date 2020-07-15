@@ -2,6 +2,7 @@ import { IRouterContext } from 'koa-router'
 
 export * from './app'
 export * from './incident'
+export * from './webhook'
 
 class Controller {
   async version (ctx: IRouterContext) {

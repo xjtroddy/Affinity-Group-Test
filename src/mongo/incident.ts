@@ -11,18 +11,22 @@ function getIncidentModel (): mongoose.Model<any> {
 
 export async function addIncident (
   appId: AppId,
+  statusCode: number,
 ) {
   const incidentModel = getIncidentModel()
   const alreadyError = await incidentModel.findOne({
     appId,
     inError: true,
-    $exists: { endTime: false },
-  })
+    endTime: { $exists: false },
+    statusCode,
+  }).lean()
   if (alreadyError) {
     return
   }
   await incidentModel.create({
+    _id: mongoose.Types.ObjectId(),
     appId,
+    statusCode,
   })
 }
 
@@ -40,6 +44,7 @@ export async function recoverIncident (appId: AppId) {
       $set: {
         endTime: now,
         duration,
+        inError: false,
       }
     })
   }

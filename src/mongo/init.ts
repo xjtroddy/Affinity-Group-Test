@@ -6,6 +6,7 @@ import {
   createIncidentSchema,
   createAppSchema,
   createResponseSchema,
+  createWebhookSchema,
 } from './schemas'
 import { logger } from '../utils'
 
@@ -76,6 +77,7 @@ export function connect () {
   Models[CollectionName.INCIDENT] = conn.model('Incident', createIncidentSchema())
   Models[CollectionName.APP] = conn.model('App', createAppSchema())
   Models[CollectionName.RESPONSE] = conn.model('Response', createResponseSchema())
+  Models[CollectionName.WEBHOOK] = conn.model('Webhook', createWebhookSchema())
   client = Models
 }
 

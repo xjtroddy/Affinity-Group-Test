@@ -1,12 +1,13 @@
 import { map } from 'lodash'
 import { Schema, SchemaOptions, SchemaTypeOpts } from 'mongoose'
 
-import { AppSchema, ResponseSchema, IncidentSchema } from '../schema'
+import { AppSchema, ResponseSchema, IncidentSchema, WebhookSchema } from '../schema'
 
 export enum CollectionName {
   APP = 'app',
   RESPONSE = 'response',
   INCIDENT = 'incident',
+  WEBHOOK = 'webhook'
 }
 
 type required<T> = {
@@ -122,6 +123,40 @@ export function createIncidentSchema () {
     inError: {
       type: Boolean,
       default: true,
+    },
+    statusCode: {
+      type: Number,
+      required: true,
+    }
+  }
+  const options: SchemaOptions = {
+    read: 'secondaryPreferred',
+  }
+
+  return new Schema(defination, options)
+}
+
+export function createWebhookSchema () {
+  const defination: SchemaDefinition<WebhookSchema> = {
+    _id: Schema.Types.ObjectId,
+    callbackUrl: {
+      type: String,
+      required: true
+    },
+    created: {
+      type: Date,
+      default: Date.now,
+    },
+    updated: {
+      type: Date,
+      default: Date.now,
+    },
+    appIds: {
+      type: [Schema.Types.ObjectId],
+    },
+    all: {
+      type: Boolean,
+      default: false,
     }
   }
   const options: SchemaOptions = {

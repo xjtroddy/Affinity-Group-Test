@@ -1,5 +1,5 @@
 import { IRouterContext } from 'koa-router'
-import { isBool, isMongoId, isUrl } from 'validator'
+import { isBool, isMongoId, isUrl, isJSON } from 'validator'
 
 import * as mongo from '../mongo'
 import { createError, errorName } from '../utils'
@@ -37,8 +37,14 @@ class AppController {
     if (frequency <= 0) {
       throw createError(errorName.parameterError, 'frequency', 'frequency is invalid')
     }
+    if (body && isJSON(body)) {
+      throw createError(errorName.parameterError, 'body', 'body is invalid')
+    }
+    if (headers && isJSON(headers)) {
+      throw createError(errorName.parameterError, 'headers', 'headers is invalid')
+    }
     const app = await mongo.app.createApp(name, frequency, url, method, body, headers)
-    await pingManagement.start(app._id, url, method, frequency, body, headers)
+    await pingManagement.start(name, app._id, url, method, frequency, body, headers)
     ctx.body = app
   }
 

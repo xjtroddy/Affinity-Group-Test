@@ -8,4 +8,5 @@ export interface IncidentSchema {
   endTime: Date,
   duration: number,
   inError: boolean,
+  statusCode: number,
 }

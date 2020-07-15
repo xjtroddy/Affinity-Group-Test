@@ -1,4 +1,4 @@
-import { AppError } from './AppError'
+import { AppError } from './appError'
 import { errorPool, errorName } from './errorPool'
 
 export * from './errorPool'

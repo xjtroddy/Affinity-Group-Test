@@ -3,9 +3,8 @@ import * as bodyparser from 'koa-bodyparser'
 
 import { log, protectApp } from './middlewares'
 import * as mongo from './mongo'
-import router from './router'
+import { apiRouter, rootRouter } from './router'
 import { logger } from './utils'
-// import { startAllTimers } from './blls/ping'
 import * as config from 'config'
 import { startAllTimers } from './blls/ping'
 
@@ -23,7 +22,8 @@ const startServer = async () => {
   app.use(protectApp)
   app.use(log)
   app.use(bodyparser())
-  app.use(router.routes())
+  app.use(apiRouter.routes())
+  app.use(rootRouter.routes())
   app.listen(port, () => {
     logger.info({
       class: 'start',

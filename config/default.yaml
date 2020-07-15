@@ -3,6 +3,5 @@ app:
   port: 3000
 storage:
   mongo:
-    url: 'mongodb://127.0.0.1'
-    name: affinity
+    url: 'mongodb://mongocontainer:27017/affinity_test'
     authDB: admin

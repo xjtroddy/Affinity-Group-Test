@@ -43,9 +43,11 @@ export async function deleteApp (appId: AppId) {
   })
 }
 
-export async function getAllApp () {
+export async function getAllEnabledApps () {
   const appModel = getAppModel()
-  return await appModel.find().lean() as AppSchema[]
+  return await appModel.find({
+    enabled: true,
+  }).lean() as AppSchema[]
 }
 
 export async function updateApp (

@@ -1,15 +1,23 @@
 import * as KoaRouter from 'koa-router'
 
-import { appController, incidentController } from './controllers'
+import { appController, incidentController, controller, webhookController } from './controllers'
 
-const apiRouter = new KoaRouter({prefix: '/api'})
+const apiRouters = new KoaRouter({prefix: '/api'})
+const rootRouters = new KoaRouter()
 
-apiRouter.post('/apps', appController.create)
+rootRouters.get('/version', controller.version)
 
-apiRouter.put('/apps/:appId(\\w{24})', appController.update)
+apiRouters.post('/apps', appController.create)
 
-apiRouter.delete('/apps/:appId(\\w{24})', appController.delete)
+apiRouters.put('/apps/:appId(\\w{24})', appController.update)
 
-apiRouter.get('/incidents', incidentController.list)
+apiRouters.delete('/apps/:appId(\\w{24})', appController.delete)
 
-export default apiRouter
+apiRouters.get('/incidents', incidentController.list)
+
+apiRouters.post('/webhook', webhookController.add)
+
+apiRouters.delete('/webhook', webhookController.cancel)
+
+export const apiRouter = apiRouters
+export const rootRouter = rootRouters

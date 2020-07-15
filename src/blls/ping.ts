@@ -3,9 +3,9 @@ import { Options } from 'request-promise'
 import * as mongo from '../mongo'
 import { Method, AppId } from '../schema'
 import { pingManagement } from './pingManagement'
-import { logger } from '../utils'
+import * as blls from '../blls'
 
-export async function ping (appId: AppId, url: string, method: keyof typeof Method, body: any, headers: any) {
+export async function ping (appId: AppId, url: string, method: keyof typeof Method, body: string, headers: string) {
   let headersObj = {}
   if (headers) {
     try {
@@ -27,25 +27,32 @@ export async function ping (appId: AppId, url: string, method: keyof typeof Meth
     json: true,
     resolveWithFullResponse: true,
     timeout: 5000,
+    simple: false,
   } as Options
   let response
+  let ifSuccess = true
   try {
     response = await request(options)
+    if (!response.statusCode.toString().startsWith('2')) {
+      ifSuccess = false
+    } else {
+      await mongo.incident.recoverIncident(appId)
+      await blls.webhook.send(appId, 'recover')
+    }
   } catch (e) {
-    await mongo.incident.addIncident(appId)
-    return
+    ifSuccess = false
   }
-  await mongo.response.addRecord(appId, response.statusCode, Math.floor(response.timingPhases.total))
-  await mongo.incident.recoverIncident(appId)
+  const statusCode = response ? response.statusCode : -1
+  if (!ifSuccess) {
+    await mongo.incident.addIncident(appId, statusCode)
+    await blls.webhook.send(appId, 'incident')
+  }
+  await mongo.response.addRecord(appId, statusCode, Math.floor(response?response.timingPhases.total:0))
 }
 
 export async function startAllTimers () {
-  const apps = await mongo.app.getAllApp()
+  const apps = await mongo.app.getAllEnabledApps()
   apps.forEach((app) => {
-    pingManagement.start(app._id, app.url, app.method, app.frequency, app.body, app.headers)
-    logger.info({
-      class: 'timer',
-      message: `start timer of ${app.name}, frequency is ${app.frequency}`
-    })
+    pingManagement.start(app.name, app._id, app.url, app.method, app.frequency, app.body, app.headers)
   })
 }
