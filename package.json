@@ -27,7 +27,7 @@
     "koa-bodyparser": "^4.3.0",
     "koa-ratelimit": "^4.2.1",
     "koa-router": "^9.1.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "moment": "^2.27.0",
     "mongoose": "^5.9.22",
     "request": "^2.88.2",
