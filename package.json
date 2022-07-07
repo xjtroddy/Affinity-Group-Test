@@ -28,7 +28,7 @@
     "koa-ratelimit": "^4.2.1",
     "koa-router": "^9.1.0",
     "lodash": "^4.17.19",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "mongoose": "^5.9.22",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
